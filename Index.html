@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>peace water | clean & Refreshing Hydration</title>
+    <style>
+        /* CSS Reset and Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0077b6;
+            --primary-dark: #03045e;
+            --secondary: #90e0ef;
+            --light-bg: #f8f9fa;
+            --dark-text: #2b2d42;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .cart-icon {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -15px;
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* Page Container Settings */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 160px);
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Reusable Components */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 28px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 1. HOMEPAGE */
+        .hero {
+            background: linear-gradient(135deg, rgba(0,119,182,0.1) 0%, rgba(144,224,239,0.2) 100%);
+            padding: 100px 20px;
+            text-align: center;
+            border-radius: 0 0 50px 50px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #555;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* 2. ABOUT US */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 36px;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+        }
+
+        .about-image {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            height: 350px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 3. ORDER PAGE */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #eef2f3;
+        }
+
+        .product-img {
+            background-color: #f1f9fc;
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* 4. CART & CREDIT CARD (CHART POINT) */
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .cart-container, .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .cart-items {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checkout-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .card-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* 5. CONTACT PAGE */
+        .contact-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="navbar">
+            <a onclick="switchPage('home')" class="logo">💧 peace water</a>
+            <ul class="nav-links">
+                <li><a onclick="switchPage('home')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="switchPage('about')" id="nav-about">About Us</a></li>
+                <li><a onclick="switchPage('order')" id="nav-order">Order</a></li>
+                <li><a onclick="switchPage('contact')" id="nav-contact">Contact</a></li>
+                <li>
+                    <a onclick="switchPage('cart')" id="nav-cart" class="cart-icon">
+                        🛒 Cart <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Container -->
+    <main>
+
+        <!-- HOMEPAGE -->
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <h1>Peace Water for a Healthier Life</h1>
+                <p>Bottled at the source, filtered naturally, and delivered straight to your doorstep. Experience crisp hydration today.</p>
+                <button class="btn" onclick="switchPage('order')">Order Now</button>
+            </div>
+            <div class="container">
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h3>Ultra-Filtered</h3>
+                        <p>Our multi-stage filtration process guarantees 100% purity while preserving natural electrolytes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌿</div>
+                        <h3>Eco-Friendly</h3>
+                        <p>We use 100% biodegradable and recyclable ocean-bound plastic packaging to support the planet.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Fast Delivery</h3>
+                        <p>Order custom packages today and receive doorstep delivery within 24 hours guaranteed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT US -->
+        <section id="about" class="page-section">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-text">
+                        <h2>Our Clean Water Journey</h2>
+                        <p>Founded in 2018, Peace Water was built with a simple mission: to provide clean,quality spring water accessible to everyone while taking care of our planet.</p>
+                        <br>
+                        <p> hydration is the key to life. That is why we source our mineral water directly from natural subterranean springs and utilize carbon-neutral processes for our bottling plant.</p>
+                    </div>
+                    <div class="about-image">
+                        🌊 Pure & Fresh
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORDER PAGE -->
+        <section id="order" class="page-section">
+            <div class="container">
+                <h2 style="text-align:center; font-size: 36px; margin-bottom: 10px;">Select Your Hydration Plan</h2>
+                <p style="text-align:center; color: #666; margin-bottom: 40px;">Add items to your cart and check out in seconds.</p>
+                
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-img">🚰</div>
+                        <h3 class="product-title">5-Gallon Office Jug</h3>
+                        <div class="product-price">$9.99</div>
+                        <button class="btn" onclick="addToCart('5-Gallon Office Jug', 9.99)">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img">🍾</div>
+                        <h3 class="product-title">Premium Glass Bottle (24 Pack)</h3>
+                        <div class="product-price">$24.99</div>
+                        <button class="btn" onclick="addToCart('Premium Glass Bottle (24 Pack)', 24.99)">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-img">📦</div>
+                        <h3 class="product-title">Eco Boxed Water (12 Pack)</h3>
+                        <div class="product-price">$14.99</div>
+                        <button class="btn" onclick="addToCart('Eco Boxed Water (12 Pack)', 14.99)">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page-section">
+            <div class="container">
+                <div class="contact-box">
+                    <h2 style="margin-bottom: 20px; text-align: center; color: var(--primary-dark)">Get In Touch</h2>
+                    <form onsubmit="handleContact(event)">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea class="form-control" rows="4" placeholder="How can we help you?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- CART / CHECKOUT POINT (CHART POINT) -->
+        <section id="cart" class="page-section">
+            <div class="container">
+                <h2 style="font-size: 32px; margin-bottom: 30px;">Your Cart & Checkout</h2>
+                <div class="cart-container">
+                    
+                    <!-- Left Side: Cart Items -->
+                    <div class="cart-items">
+                        <h3>Cart Items</h3>
+                        <div id="cart-list" style="margin: 20px 0;">
+                            <!-- Dynamically loaded by JS -->
+                            <p style="color: #888;">Your cart is empty. Go to the Order tab to add items!</p>
+                        </div>
+                        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                        <div style="display:flex; justify-content: space-between; font-weight: bold; font-size: 18px;">
+                            <span>Total Amount:</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Credit Card Checkout -->
+                    <div class="checkout-box">
+                        <h3 style="margin-bottom: 20px;">Credit Card Payment</h3>
+                        <form onsubmit="processPayment(event)">
+                            <div class="form-group">
+                                <label>Name on Card</label>
+                                <input type="text" class="form-control" required placeholder="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label>Card Number</label>
+                                <input type="text" class="form-control" required placeholder="1234 5678 9101 1121" pattern="[0-9 ]{16,19}">
+                            </div>
+                            <div class="card-row">
+                                <div class="form-group">
+                                    <label>Expiry Date</label>
+                                    <input type="text" class="form-control" placeholder="MM/YY" required pattern="[0-9/]{5}">
+                                </div>
+                                <div class="form-group">
+                                    <label>CVV</label>
+                                    <input type="password" class="form-control" placeholder="123" required pattern="[0-9]{3}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn" style="width: 100%; background-color: #2ec4b6; border: none; box-shadow: none;">Pay Securely Now</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Clean Water Company. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script>
+        // Simple SPA Navigation Router
+        function switchPage(pageId) {
+            // Hide all pages
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            // Remove active classes from Nav Links
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+
+            // Highlight selected nav-link
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            // Scroll page back to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Live Shopping Cart State
+        let cart = [];
+
+        function addToCart(name, price) {
+            // Check if item already exists in cart
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCartUI();
+            alert(`${name} has been added to your Cart!`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            // Update Navigation Badges
+            const totalCount = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+            document.getElementById('cart-count').innerText = totalCount;
+
+            // Render Cart Page Items
+            const cartList = document.getElementById('cart-list');
+            const cartTotal = document.getElementById('cart-total');
+            
+            if (cart.length === 0) {
+                cartList.innerHTML = `<p style="color: #888; padding: 20px 0;">Your cart is empty. Go to the Order tab to add items!</p>`;
+                cartTotal.innerText = `$0.00`;
+                return;
+            }
+
+            let totalSum = 0;
+            cartList.innerHTML = '';
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                totalSum += itemTotal;
+                
+                cartList.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <span style="color:#666; font-size:14px;">$${item.price} x ${item.quantity}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <strong>$${itemTotal.toFixed(2)}</strong>
+                            <button onclick="removeFromCart(${index})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 18px;">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartTotal.innerText = `$${totalSum.toFixed(2)}`;
+        }
+
+        // Action Handlers
+        function handleContact(e) {
+            e.preventDefault();
+            alert("Thank you! Your message has been sent successfully. Our support team will contact you shortly.");
+            e.target.reset();
+        }
+
+        function processPayment(e) {
+            e.preventDefault();
+            if (cart.length === 0) {
+                alert("Your cart is empty. Please add items to your cart before checking out!");
+                return;
+            }
+            alert("Payment processed successfully! Thank you for ordering from Clean Water. Your pure water is on its way!");
+            cart = []; // clear cart
+            updateCartUI();
+            e.target.reset();
+            switchPage('home');
+        }
+    </script>
+</body>
+</html>
